@@ -1,28 +1,24 @@
-class Part{
-    constructor(x, y, radius) {
-    
-    var opitions = {
-        isStatic:false,
-        restitution:0.4
+class Particle{
+    constructor(x,y,radius){
+        var options = {
+            restitution: 0.5,
+            friction: 0
+        }
+        this.body = Bodies.circle(x,y,radius,options);
+        this.color=color(random(0, 255), random(0, 255), random(0, 255));
+        this.radius = radius;
+        World.add(world, this.body);
     }
 
-    this.body = Bodies.circle(x, y, radius, opitions);
-    this.color = color(random(0,255), random(0,255), random(0,255));
-    this.radius = radius;
-    World.add(world,this.body)
-
-    }
     display(){
-        var pos =this.body.position;
-        var angle = this.body.angle;
-
-        Push()
-        translate(pos.x, pos.y);
-        rotate(angle);
+        var pos = this.body.position;
+        push();
+        colorMode(HSB);
         noStroke();
-        Fill(this.color);
-        ellipseMode(RADIUS);
-        ellipse(0, 0, radius, radius)
-        pop()
-      }
-};
+        translate(pos.x,pos.y);
+       
+        fill(this.color);
+        ellipse(0,0,this.radius*2);
+        pop();
+    }
+}

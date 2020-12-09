@@ -1,56 +1,82 @@
-const Engine = Matter.Engine;
-const World= Matter.World;
-const Bodies = Matter.Bodies;
-const Constraint = Matter.Constraint;
+const Engine = Matter.Engine,
+      World = Matter.World,
+      Events = Matter.Events,
+      Bodies = Matter.Bodies
 
-var engine, world;
-var ground;
-var divisionHeight = 300;
+var engine,world; 
 var particles = [];
-var plinkos = [];
-var divisions = [];
+var plinkos=[];
+var rows=[];
+var ground;
+var rows;
+
+
+var rowsHeight = 150;
 
 function setup() {
 
-  var canvas = createCanvas(450,790);
-
+  
+  createCanvas(600,500);
+  
   engine = Engine.create();
   world = engine.world;
+  ground = new Ground(200,500,1700,10);
 
-  ground = new Ground(255, 780, 800, 20);
-
+  for(var j = 40; j<= width; j = j+50){
+    plinkos.push(new Plinko(j , 55))
+  }
+  for(var j = 15; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,85))
+  }
+  for(var j = 40; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,120))
+  }
+  for(var j = 15; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,150))
+  }
+  for(var j = 40; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,185))
+  }
+  for(var j = 15; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,225))
+  }
+  for(var j = 40; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,265))
+  }
+  for(var j = 15; j<= width-10; j = j+50){
+    plinkos.push(new Plinko(j ,305))
+  }
+  for(var k = 0; k <=width; k = k+80){
+    rows.push(new Rows(k, height-rowsHeight/2, 10, rowsHeight));
+  }
 }
 
 function draw() {
+  background(0);
+  if(frameCount % 30 === 0){
+    particle = new Particle(random(130, 400), 0, 7, random(0, 360));
+    particles.push(particle);
+  }
 
-  background("black");  
-
-  for (let a = 0; a <= width; a = a + 80) {
-	  divisions.push( new Divisions(a, height - divisionHeight/2, 10, divisionHeight) )
-	}
-
-  for (let b = 40; b <= width; b = b + 75) {
-	plinkos.push( new Pinko(b, 75) )  
-	}
-
-  for (let b = 40; b <= width; b = b + 50) {
-	plinkos.push( new Pinko(b, 175) )  
-	}
-
-  for (let b = 40; b <= width; b = b + 75) {
-	plinkos.push( new Pinko(b, 75) )  
-	}
-
-  for (let b = 40; b <= width; b = b + 50) {
-	plinkos.push( new Pinko(b, 175) )  
-	}
-
-	if (frameCount % 60 === 0) {
-		particles.push( new Part(random(width/2 - 10, width/2 + 10, 10, 10)) )
-	}
-
-  Engine.update(engine);
   
-	ground.display();
+  Engine.update(engine, 25);
+  for(var i = 0; i < particles.length; i++){
+    particles[i].display();
+  }
 
+ 
+  for(var k = 0; k<rows.length;k++){
+    rows[k].display();
+ }
+
+
+  for(var j = 0; j<plinkos.length;j++){
+    plinkos[j].display();
+ }
+
+
+//rows.display();
+ ground.display();
+
+  drawSprites();
 }
